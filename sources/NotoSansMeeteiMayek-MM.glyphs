@@ -165,7 +165,7 @@ date = "2020-02-26 00:10:06 +0000";
 designer = "Monotype Design Team and Neelakash Kshetrimayum";
 designerURL = "http://www.monotype.com/studio";
 disablesAutomaticAlignment = 1;
-familyName = "Noto Sans MeeteiMayek";
+familyName = "Noto Sans Meetei Mayek";
 featurePrefixes = (
 {
 code = "languagesystem mtei dflt;";

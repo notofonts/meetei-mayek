@@ -1,6 +1,13 @@
 {
-.appVersion = "1300";
-copyright = "Copyright 2020 Google Inc. All Rights Reserved.";
+.appVersion = "3109";
+classes = (
+{
+automatic = 1;
+code = "dottedCircle e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei iiMatra-mtei auMatra-mtei aauMatra-mtei anji-mtei syllableRepetitionMark-mtei wordRepetitionMark-mtei visargaMatra-mtei kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei onapMatra-mtei inapMatra-mtei yenapMatra-mtei sounapMatra-mtei lumIyek-mtei";
+name = AllLetters;
+}
+);
+copyright = "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/meetei-mayek)";
 customParameters = (
 {
 name = glyphOrder;
@@ -100,22 +107,6 @@ apunIyek.right2
 );
 },
 {
-name = description;
-value = "Designed by Monotype design team.";
-},
-{
-name = license;
-value = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.";
-},
-{
-name = licenseURL;
-value = "http://scripts.sil.org/OFL";
-},
-{
-name = vendorID;
-value = GOOG;
-},
-{
 name = unicodeRanges;
 value = (
 0,
@@ -123,14 +114,6 @@ value = (
 31,
 45
 );
-},
-{
-name = trademark;
-value = "Noto is a trademark of Google Inc.";
-},
-{
-name = versionString;
-value = "Version 2.001";
 },
 {
 name = fsType;
@@ -144,6 +127,42 @@ value = (
 );
 },
 {
+name = "Has WWS Names";
+value = 1;
+},
+{
+name = "Don't use Production Names";
+value = 1;
+},
+{
+name = "Use Typo Metrics";
+value = 1;
+},
+{
+name = description;
+value = "Designed by Monotype design team.";
+},
+{
+name = license;
+value = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://scripts.sil.org/OFL";
+},
+{
+name = licenseURL;
+value = "https://scripts.sil.org/OFL";
+},
+{
+name = vendorID;
+value = GOOG;
+},
+{
+name = trademark;
+value = "Noto is a trademark of Google Inc.";
+},
+{
+name = versionString;
+value = "Version 2.002";
+},
+{
 name = Axes;
 value = (
 {
@@ -151,14 +170,6 @@ Name = Weight;
 Tag = wght;
 }
 );
-},
-{
-name = "Has WWS Names";
-value = 1;
-},
-{
-name = "Don't use Production Names";
-value = 1;
 }
 );
 date = "2020-02-26 00:10:06 +0000";
@@ -178,7 +189,7 @@ name = reflookups;
 );
 features = (
 {
-code = "lookup apunIyek_left {\012	lookupflag 0;\012	sub apunIyek-mtei by apunIyek.left1 apunIyek-mtei;\012} apunIyek_left;\012\012lookup apunIyek_chain {\012	lookupflag 0;\012	ignore sub [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei ]' [apunIyek.left1 ] ;\012	sub [apunIyek-mtei ] [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei iiMatra-mtei auMatra-mtei ]' lookup apunIyek_multiple;\012} apunIyek_chain;\012\012lookup sub_apunIyek_unap {\012	lookupflag 0;\012	sub apunIyek.right1 unapMatra-mtei by apunIyek-unap;\012} sub_apunIyek_unap;\012\012lookup apunIyek_right2 {\012	lookupflag 0;\012	sub [apunIyek-mtei ]' lookup sub_right2 [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei ] [apunIyek-unap ] ;\012} apunIyek_right2;";
+code = "lookup apunIyek_left {\012	lookupflag 0;\012	sub apunIyek-mtei' @AllLetters by apunIyek.left1 apunIyek-mtei;\012	sub apunIyek-mtei' by apunIyek.right1;\012} apunIyek_left;\012\012lookup apunIyek_chain {\012	lookupflag 0;\012	ignore sub [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei ]' [apunIyek.left1 ] ;\012	sub [apunIyek-mtei ] [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei iiMatra-mtei auMatra-mtei ]' lookup apunIyek_multiple;\012} apunIyek_chain;\012\012lookup sub_apunIyek_unap {\012	lookupflag 0;\012	sub apunIyek.right1 unapMatra-mtei by apunIyek-unap;\012} sub_apunIyek_unap;\012\012lookup apunIyek_right2 {\012	lookupflag 0;\012	sub [apunIyek-mtei ]' lookup sub_right2 [kok-mtei sam-mtei lai-mtei mit-mtei pa-mtei na-mtei chil-mtei til-mtei khou-mtei ngou-mtei thou-mtei wai-mtei yang-mtei huk-mtei un-mtei i-mtei pham-mtei atiya-mtei gok-mtei jham-mtei rai-mtei ba-mtei jil-mtei dil-mtei ghou-mtei dhou-mtei bham-mtei kokLonsum-mtei laiLonsum-mtei mitLonsum-mtei paLonsum-mtei naLonsum-mtei tilLonsum-mtei ngouLonsum-mtei iLonsum-mtei e-mtei o-mtei cha-mtei nya-mtei tta-mtei ttha-mtei dda-mtei ddha-mtei nna-mtei sha-mtei ssa-mtei ] [apunIyek-unap ] ;\012} apunIyek_right2;\012";
 name = blws;
 }
 );
@@ -253,7 +264,9 @@ value = (
 );
 descender = -318;
 horizontalStems = (
-32
+32,
+0,
+0
 );
 id = UUID0;
 verticalStems = (
@@ -332,7 +345,8 @@ value = (
 descender = -318;
 horizontalStems = (
 72,
-57
+57,
+0
 );
 id = "B2B7298B-4574-4E4E-9E4E-FF4301209A8A";
 verticalStems = (
@@ -24994,10 +25008,6 @@ instances = (
 {
 customParameters = (
 {
-name = weightClass;
-value = 100;
-},
-{
 name = panose;
 value = (
 2,
@@ -25074,10 +25084,6 @@ weightClass = Thin;
 },
 {
 customParameters = (
-{
-name = weightClass;
-value = 200;
-},
 {
 name = panose;
 value = (
@@ -25157,10 +25163,6 @@ weightClass = ExtraLight;
 {
 customParameters = (
 {
-name = weightClass;
-value = 300;
-},
-{
 name = panose;
 value = (
 2,
@@ -25239,10 +25241,6 @@ weightClass = Light;
 {
 customParameters = (
 {
-name = weightClass;
-value = 400;
-},
-{
 name = panose;
 value = (
 2,
@@ -25314,10 +25312,6 @@ name = Regular;
 },
 {
 customParameters = (
-{
-name = weightClass;
-value = 500;
-},
 {
 name = panose;
 value = (
@@ -25397,10 +25391,6 @@ weightClass = Medium;
 {
 customParameters = (
 {
-name = weightClass;
-value = 600;
-},
-{
 name = panose;
 value = (
 2,
@@ -25478,10 +25468,6 @@ weightClass = SemiBold;
 },
 {
 customParameters = (
-{
-name = weightClass;
-value = 700;
-},
 {
 name = panose;
 value = (
@@ -25563,10 +25549,6 @@ weightClass = Bold;
 {
 customParameters = (
 {
-name = weightClass;
-value = 800;
-},
-{
 name = panose;
 value = (
 2,
@@ -25644,10 +25626,6 @@ weightClass = ExtraBold;
 },
 {
 customParameters = (
-{
-name = weightClass;
-value = 900;
-},
 {
 name = panose;
 value = (
@@ -25728,5 +25706,5 @@ manufacturer = "Monotype Imaging Inc.";
 manufacturerURL = "http://www.google.com/get/noto/";
 unitsPerEm = 1000;
 versionMajor = 2;
-versionMinor = 1;
+versionMinor = 2;
 }

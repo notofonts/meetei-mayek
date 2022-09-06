@@ -4,5 +4,9 @@ googleFonts: true
 includeSubsets:
 - from: Noto Sans
   name: GF_Latin_Core
+- from: Noto Sans Devanagari
+  ranges:
+    - start: 0x20B9
+      end: 0x20B9
 sources:
 - NotoSansMeeteiMayek.glyphs

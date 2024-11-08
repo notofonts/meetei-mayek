@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Diffenator3</title>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+		crossorigin="anonymous"></script>
+	<style type="text/css">
+		@font-face {
+      font-family: "Font Before";
+      src: url();
+    }
+
+    @font-face {
+      font-family: "Font After";
+      src: url();
+    }
+
+    .font-before, .font-after {
+      font-variation-settings: "wght" 400, "wdth" 100;
+    }
+
+    .font-before {
+      font-family: "Font Before", "Adobe Notdef";
+    }
+
+    .font-after {
+      font-family: "Font After", "Adobe Notdef";
+    }
+
+	:root {
+	--node-pt-size: 40px;
+	}
+
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #b3d4f5 !important;
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+    background-color: #ced9e4 !important;
+}
+.nav-item {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 2px;
+}
+
+.nav-pills .nav-link{
+    background-color: #9fcaf5 !important;
+}
+h4 {
+    color: #6f7882 !important;
+}
+
+@font-face {
+    font-family: "Adobe NotDef";
+    src: url(https://cdn.jsdelivr.net/gh/adobe-fonts/adobe-notdef/AND-Regular.ttf);
+}
+
+.box-title {
+    width: 100%;
+    font-size: 8pt;
+    font-weight: 700;
+    border-top: 1px solid black;
+    padding-top: 5px;
+    margin-bottom: 10pt;
+    display: block;
+}
+
+.box {
+    margin-bottom: 20pt;
+    width: 100%;
+    float: left;
+}
+
+.box-text {}
+
+#ui-nav {
+    position: fixed;
+    right: 20px;
+    z-index: 100;
+}
+
+#font-toggle {}
+
+.ui-nav-item {
+    display: block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+    text-align: center;
+    color: white;
+    background-color: black;
+    display: block;
+    font-size: 14pt;
+    padding: 5px;
+    margin: 2px;
+}
+
+/* Stuff needed for the table differ */
+body {
+    font-family: Helvetica;
+}
+
+.node {
+    font-family: courier;
+    cursor: pointer;
+    position: relative;
+    left: 30px;
+    padding: 5px;
+    display: block;
+    border: 1px dashed grey;
+    background-color: #e9e9ee;
+}
+
+.header {
+    font-weight: bold;
+}
+
+.attr-before {
+    color: green;
+    cursor: text;
+}
+
+.attr-after {
+    color: red;
+    cursor: text;
+}
+
+.leaf {
+    font-weight: bold;
+}
+
+.old .cell .new {
+    display: none;
+}
+
+.new .cell .old {
+    display: none;
+}
+
+.both .cell .old {
+    opacity: 0.75;
+    color: red;
+}
+
+.both .cell .new {
+    opacity: 0.75;
+    position: absolute;
+    top: 0;
+    color: green;
+}
+
+.spacer {
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+#ot-panel {
+    max-height: 400px;
+    overflow-y: scroll;
+    background: white;
+    padding: 10px;
+    display: none;
+   }
+
+   .cell{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 5pt;
+    margin: 5pt;
+    width: 50pt;
+    font-size: var(--node-pt-size);
+    line-height: calc(var(--node-pt-size) * 1.5);
+  }
+  .cell-word{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 5pt;
+    margin: 5pt;
+    font-size: var(--node-pt-size);
+    line-height: calc(var(--node-pt-size) * 1.5);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+  .cell-glyph{
+    z-index: -100;
+    float: left;
+    display: block;
+    text-align: center;
+    border-radius: 5pt;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 5pt;
+    margin: 5pt;
+    width: calc(var(--node-pt-size) * 2);
+    min-height: calc(var(--node-pt-size) * 2);
+    font-size: var(--node-pt-size);
+  }
+  .cell-glyph.font-before, .cell-word.font-before {
+    background: #eff6f2;
+  }
+  .cell-glyph.font-after, .cell-word.font-after {
+    background: #f7f4f4;
+  }
+
+  .cell-glyph:hover {
+    box-shadow: none;
+    background: #f0f0f5;
+  }
+  .cat-strings .cell {
+    clear: both;
+    position: static;
+    float: none;
+    text-align: left;
+  }
+  .codepoint {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 10pt;
+    line-height: 10pt;
+  }
+  .box-title {
+    clear: both;
+  }
+  .node.closed::before {
+    content: "+";
+    margin-right: 5pt;
+  }
+  .node.open::before {
+    content: "-";
+    margin-right: 5pt;
+  }
+
+  .tooltip pre {
+    background-color: #6f7882;
+    padding: 5px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .tooltip {
+    line-height: 1em;
+  }
+  .tooltip-inner {
+    max-width: 300px;
+  }
+
+  h1,h2,h3,h4,h5 {
+    clear: both;
+  }
+
+  #locationnav li {
+    white-space: wrap;
+  }
+
+  #userdefined div { width: 100%; }
+  
+/* The following rules are used in the WASM version, not in the CLI version.
+   But we keep them here so we can share them between the two versions. */
+
+   .modal-dialog {
+    max-width: 100% !important;
+    margin: 0 !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    display: flex;
+  }
+
+  .fontdrop {
+    padding: 30px;
+    border-radius: 20px;
+    outline: 3px dashed #ffffffff;
+    outline-offset: -20px;
+  }
+
+  #fontbefore {
+    background-color: #ddffdddd;
+  }
+
+  #fontafter {
+    background-color: #ffdddddd;
+  }
+
+  .dragging {
+    background-image: linear-gradient(rgb(0 0 0/5%) 0 0);
+    outline: 5px dashed #ffffffff;
+  }
+
+  #diffkerns {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+		</style>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+		<div id="ui-nav">
+		  <div class="ui-nav-item" id="fonttoggle">Old</div>
+		  <div class="ui-nav-item" id="fontanimate">Animate</div>
+		  <div id="axes">
+		  </div>
+		</div>
+	
+	<div class="row">
+		<div class="col-2">
+			<ul class="nav nav-pills" id="locationnav">
+			</ul>
+		</div>
+		<div class="col-9 mt-3">
+			<div id="title"></div>
+			<div id="cmapdiff"> </div>
+			<div id="main"></div>
+			<div id="userdefined">
+				<h4>User defined sample text</h4>
+				<div contenteditable="true" class="font-before cell-word">
+					You can type your own text here to see it previewed in the fonts.
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div id="diffkerns"> </div>
+			<div id="difftable"> </div>
+		</div>
+	</div>
+	<script type="module">
+		function renderTableDiff(node, toplevel) {
+  var wrapper = $("<div> </div>");
+  if (!node) {
+    return wrapper;
+  }
+  if (Array.isArray(node) && node.length == 2) {
+    var before = $("<span/>");
+    before.addClass("attr-before");
+    before.html(" " + node[0] + " ");
+    var after = $("<span/>");
+    after.addClass("attr-after");
+    after.append(renderTableDiff(node[1], true).children());
+    wrapper.append(before);
+    wrapper.append(after);
+    return wrapper;
+  }
+  if (node.constructor != Object) {
+    var thing = $("<span/>");
+    thing.html(node);
+    wrapper.append(thing);
+    return wrapper;
+  }
+  for (const [key, value] of Object.entries(node)) {
+    var display = $("<div/>");
+    display.addClass("node");
+    if (!toplevel) {
+      display.hide();
+    }
+    display.append(key);
+    display.append(renderTableDiff(value, false).children());
+    if (display.children(".node").length > 0) {
+      display.addClass("closed");
+    }
+    wrapper.append(display);
+  }
+  return wrapper;
+}
+
+function addAGlyph(glyph, where) {
+  let title = "";
+  if (glyph.name) {
+    title = "name: " + glyph.name;
+  }
+  let cp =
+    "<br>U+" +
+    glyph.string.codePointAt(0).toString(16).padStart(4, "0").toUpperCase();
+  where.append(`
+        <div class="cell-glyph font-before">
+        <div data-toggle="tooltip" data-html="true" data-title="${glyph.differing_pixels} pixels"> ${glyph.string}
+        <div class="codepoint" data-toggle="tooltip" data-html="true" data-title="${title}">
+		${cp}
+        </div>
+        </div>
+    `);
+}
+
+function addAWord(diff, where) {
+  if (!diff.buffer_b) {
+    diff.buffer_b = diff.buffer_a;
+  }
+  where.append(`
+		<div class="cell-word font-before">
+		<span data-toggle="tooltip" data-html="true" data-title="Before: <pre>${diff.buffer_a}</pre>After: <pre>${diff.buffer_b}</pre><br>difference: ${diff.differing_pixels} pixels">
+		${diff.word}
+		</span>
+		</div>
+	`);
+}
+
+function diffTables(report) {
+  $("#difftable").empty();
+  $("#difftable").append(`<h4 class="mt-2 box-title">Table-level details</h4>`);
+  $("#difftable").append(
+    renderTableDiff({ tables: report["tables"] }, true).children()
+  );
+  $("#difftable .node").on("click", function (e) {
+    $(this).toggleClass("closed open");
+    $(this).children(".node").toggle();
+    e.stopPropagation();
+  });
+}
+function diffKerns(report) {
+  $("#diffkerns").empty();
+  $("#diffkerns").append(`<h4 class="mt-2">Modified Kerns</h4>`);
+  $("#diffkerns").append(
+    `<table class="table table-striped" id="diffkerns"><tr><th>Pair</th><th>Old</old><th>New</th></table>`
+  );
+  for (let [pair, value] of Object.entries(report["kerns"])) {
+    if (pair == "error") {
+      $("#diffkerns").append(`<p class="text-danger">Error: ${value}</p>`);
+      continue;
+    } else {
+      let row = $("<tr>");
+      row.append(`<td>${pair}</td>`);
+      row.append(`<td>${serializeKernBefore(value)}</td>`);
+      row.append(`<td>${serializeKernAfter(value)}</td>`);
+      $("#diffkerns table").append(row);
+    }
+  }
+}
+
+function serializeKernBefore(kern) {
+  if (Array.isArray(kern)) {
+    return serializeKern(kern[0], -1);
+  }
+  return serializeKern(kern, 0);
+}
+
+function serializeKernAfter(kern) {
+  if (Array.isArray(kern)) {
+    return serializeKern(kern[1], -1);
+  }
+  return serializeKern(kern, 1);
+}
+
+function serializeKern(kern, index) {
+  let string = "";
+  if (kern === null || kern === undefined) {
+    return "(null)";
+  }
+  if (kern.x) {
+    string += serializeKernValue(kern.x, index);
+  } else if (kern.y) {
+    string = "0";
+  }
+
+  if (kern.y) {
+    string += "," + serializeKernValue(kern.y, index);
+  }
+  if (!kern.x_placement && !kern.y_placement) {
+    return string;
+  }
+  string += "@";
+  if (kern.x_placement) {
+    string += serializeKernValue(kern.x_placement, index);
+  } else if (kern.y_placement) {
+    string += "0";
+  }
+  if (kern.y_placement) {
+    string += "," + serializeKernValue(kern.y_placement, index);
+  }
+  return string;
+}
+
+function serializeKernValue(kern, index) {
+  if (typeof kern == "number") {
+    return kern;
+  }
+  let string = "(";
+  let verybig = Object.entries(kern).length > 5;
+  for (let [key, value] of Object.entries(kern)) {
+    if (key == "default") {
+      string += value[index] + " ";
+    } else {
+      string += value[index] + "@" + key + " ";
+    }
+    if (verybig) {
+      string += "<br>";
+    }
+  }
+  return string.trim() + ")";
+}
+
+function cmapDiff(report) {
+  if (report.cmap_diff && (report.cmap_diff.new || report.cmap_diff.missing)) {
+    $("#cmapdiff").append(
+      `<h4 class="mt-2">Added and Removed Encoded Glyphs</h4>`
+    );
+    if (report["cmap_diff"]["new"]) {
+      $("#cmapdiff").append(`<h4 class="box-title">Added Glyphs</h4>`);
+      let added = $("<div>");
+      for (let glyph of report["cmap_diff"]["new"]) {
+        addAGlyph(glyph, added);
+      }
+      $("#cmapdiff").append(added);
+    }
+
+    if (report["cmap_diff"]["missing"]) {
+      $("#cmapdiff").append(`<h4 class="box-title">Removed Glyphs</h4>`);
+      let missing = $("<div>");
+      for (let glyph of report["cmap_diff"]["missing"]) {
+        addAGlyph(glyph, missing);
+      }
+      $("#cmapdiff").append(missing);
+    }
+  } else {
+    $("#cmapdiff").append(`<p>No changes to encoded glyphs</p>`);
+  }
+}
+
+function setupAnimation() {
+  $("#fonttoggle").click(function () {
+    if ($(this).text() == "Old") {
+      $(this).text("New");
+      $(".font-before").removeClass("font-before").addClass("font-after");
+    } else {
+      $(this).text("Old");
+      $(".font-after").removeClass("font-after").addClass("font-before");
+    }
+  });
+
+  let animationHandle;
+  function animate() {
+    $("#fonttoggle").click();
+    animationHandle = setTimeout(animate, 1000);
+  }
+  $("#fontanimate").click(function () {
+    if ($(this).text() == "Animate") {
+      $(this).text("Stop");
+      animate();
+    } else {
+      $(this).text("Animate");
+      clearTimeout(animationHandle);
+    }
+  });
+}
+
+export {
+  renderTableDiff,
+  addAGlyph,
+  addAWord,
+  cmapDiff,
+  diffTables,
+  diffKerns,
+  setupAnimation,
+};
+
+	var report = {"tables":{"GPOS":{"feature_list":{"blwm":{"1":[null,2],"2":[null,3]},"mark":{"0":[2,4],"1":[null,5],"2":[null,6]}},"lookup_list":{"1":{"0":{"marks":{"anchor_1":[{"uABED":{"x":0,"y":0},"apunIyek.right1":{"x":0,"y":0},"apunIyek.right2":{"x":0,"y":0}},null],"anchor_2":[{"apunIyek.left1":{"x":0,"y":0}},null]},"bases":{"uAAE0":{"anchor_1":[{"x":{"default":683,"wght=100":636,"wght=900":716},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE1":{"anchor_1":[{"x":{"wght=900":673,"wght=100":591,"default":639},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE2":{"anchor_1":[{"x":{"default":802,"wght=100":766,"wght=900":855},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE3":{"anchor_1":[{"x":{"default":878,"wght=100":832,"wght=900":921},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE4":{"anchor_1":[{"x":{"default":1112,"wght=100":1063,"wght=900":1167},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE5":{"anchor_1":[{"x":{"wght=100":633,"wght=900":713,"default":680},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE6":{"anchor_1":[{"x":{"wght=100":817,"default":857,"wght=900":886},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE7":{"anchor_1":[{"x":{"wght=900":962,"default":932,"wght=100":882},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE8":{"anchor_1":[{"x":{"wght=100":618,"wght=900":737,"default":666},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAE9":{"anchor_1":[{"x":{"wght=900":1175,"wght=100":1073,"default":1122},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uAAEA":{"anchor_1":[{"x":{"wght=100":643,"wght=900":683,"default":691},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC0":{"anchor_1":[{"x":{"default":924,"wght=100":871,"wght=900":981},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC1":{"anchor_1":[{"x":{"default":837,"wght=100":798,"wght=900":882},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC2":{"anchor_1":[{"x":{"default":646,"wght=100":606,"wght=900":691},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC3":{"anchor_1":[{"x":{"default":751,"wght=100":732,"wght=900":827},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC4":{"anchor_1":[{"x":{"wght=900":1090,"wght=100":940,"default":981},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC5":{"anchor_1":[{"x":{"wght=100":691,"wght=900":794,"default":709},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC6":{"anchor_1":[{"x":{"wght=100":749,"wght=900":830,"default":781},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC7":{"anchor_1":[{"x":{"wght=900":851,"default":765,"wght=100":731},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC8":{"anchor_1":[{"x":{"wght=100":683,"wght=900":780,"default":715},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABC9":{"anchor_1":[{"x":{"wght=100":855,"default":907,"wght=900":1014},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCA":{"anchor_1":[{"x":{"wght=100":626,"wght=900":780,"default":649},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCB":{"anchor_1":[{"x":{"wght=100":778,"wght=900":874,"default":820},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCC":{"anchor_1":[{"x":{"wght=100":803,"wght=900":911,"default":817},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCD":{"anchor_1":[{"x":{"wght=100":723,"default":717,"wght=900":821},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCE":{"anchor_1":[{"x":{"wght=100":754,"default":803,"wght=900":839},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABCF":{"anchor_1":[{"x":{"wght=100":693,"wght=900":763,"default":740},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD0":{"anchor_1":[{"x":{"wght=100":686,"wght=900":776,"default":728},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD1":{"anchor_1":[{"x":{"default":798,"wght=900":870,"wght=100":759},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD2":{"anchor_1":[{"x":{"default":787,"wght=900":887,"wght=100":743},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD3":{"anchor_1":[{"x":{"wght=100":611,"default":649,"wght=900":681},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD4":{"anchor_1":[{"x":{"wght=100":771,"default":818,"wght=900":876},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD5":{"anchor_1":[{"x":{"wght=100":623,"wght=900":743,"default":676},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD6":{"anchor_1":[{"x":{"wght=100":553,"wght=900":613,"default":606},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD7":{"anchor_1":[{"x":{"wght=100":735,"default":763,"wght=900":845},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD8":{"anchor_1":[{"x":{"wght=900":853,"default":781,"wght=100":747},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABD9":{"anchor_1":[{"x":{"wght=100":536,"wght=900":605,"default":559},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDA":{"anchor_1":[{"x":{"default":688,"wght=100":640,"wght=900":744},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDB":{"anchor_1":[{"x":{"wght=900":981,"default":896,"wght=100":845},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDC":{"anchor_1":[{"x":{"wght=900":606,"wght=100":536,"default":576},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDD":{"anchor_1":[{"x":{"default":630,"wght=100":628,"wght=900":657},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDE":{"anchor_1":[{"x":{"default":820,"wght=900":884,"wght=100":780},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABDF":{"anchor_1":[{"x":{"default":769,"wght=900":835,"wght=100":745},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABE0":{"anchor_1":[{"x":{"wght=100":639,"default":683,"wght=900":719},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABE1":{"anchor_1":[{"x":{"wght=100":655,"default":706,"wght=900":757},"y":0},null],"anchor_2":[{"x":0,"y":0},null]},"uABE2":{"anchor_1":[{"x":{"wght=900":763,"default":740,"wght=100":693},"y":0},null],"anchor_2":[{"x":0,"y":0},null]}}}},"2":{"0":{"marks":{"anchor_0":{"uAAEC":[{"x":-63,"y":0},null],"uAAF6":[{"x":-498,"y":{"default":-48,"wght=900":-8}},null],"uABE8":[{"x":-63,"y":0},null],"apunIyekunap":[{"x":-63,"y":0},null],"apunIyek.left1":[null,{"x":0,"y":0}]},"anchor_1":[{"uAAED":{"x":-381,"y":698},"uABE5":{"x":-156,"y":723},"uABE9":{"x":-146,"y":684},"uABEA":{"x":-137,"y":684}},null],"anchor_2":[{"uABED":{"x":0,"y":0},"apunIyek.right1":{"x":0,"y":0},"apunIyek.right2":{"x":0,"y":0}},null]},"bases":{"uni25CC":[{"anchor_0":{"x":297,"y":-48},"anchor_1":{"x":297,"y":608},"anchor_2":{"x":524,"y":0}},null],"uAAE0":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE1":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE2":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE3":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE4":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE5":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE6":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE7":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE8":[null,{"anchor_0":{"x":0,"y":0}}],"uAAE9":[null,{"anchor_0":{"x":0,"y":0}}],"uAAEA":[null,{"anchor_0":{"x":0,"y":0}}],"uABC0":[null,{"anchor_0":{"x":0,"y":0}}],"uABC1":[null,{"anchor_0":{"x":0,"y":0}}],"uABC2":[null,{"anchor_0":{"x":0,"y":0}}],"uABC3":[null,{"anchor_0":{"x":0,"y":0}}],"uABC4":[null,{"anchor_0":{"x":0,"y":0}}],"uABC5":[null,{"anchor_0":{"x":0,"y":0}}],"uABC6":[null,{"anchor_0":{"x":0,"y":0}}],"uABC7":[null,{"anchor_0":{"x":0,"y":0}}],"uABC8":[null,{"anchor_0":{"x":0,"y":0}}],"uABC9":[null,{"anchor_0":{"x":0,"y":0}}],"uABCA":[null,{"anchor_0":{"x":0,"y":0}}],"uABCB":[null,{"anchor_0":{"x":0,"y":0}}],"uABCC":[null,{"anchor_0":{"x":0,"y":0}}],"uABCD":[null,{"anchor_0":{"x":0,"y":0}}],"uABCE":[null,{"anchor_0":{"x":0,"y":0}}],"uABCF":[null,{"anchor_0":{"x":0,"y":0}}],"uABD0":[null,{"anchor_0":{"x":0,"y":0}}],"uABD1":[null,{"anchor_0":{"x":0,"y":0}}],"uABD2":[null,{"anchor_0":{"x":0,"y":0}}],"uABD3":[null,{"anchor_0":{"x":0,"y":0}}],"uABD4":[null,{"anchor_0":{"x":0,"y":0}}],"uABD5":[null,{"anchor_0":{"x":0,"y":0}}],"uABD6":[null,{"anchor_0":{"x":0,"y":0}}],"uABD7":[null,{"anchor_0":{"x":0,"y":0}}],"uABD8":[null,{"anchor_0":{"x":0,"y":0}}],"uABD9":[null,{"anchor_0":{"x":0,"y":0}}],"uABDA":[null,{"anchor_0":{"x":0,"y":0}}],"uABDB":[null,{"anchor_0":{"x":0,"y":0}}],"uABDC":[null,{"anchor_0":{"x":0,"y":0}}],"uABDD":[null,{"anchor_0":{"x":0,"y":0}}],"uABDE":[null,{"anchor_0":{"x":0,"y":0}}],"uABDF":[null,{"anchor_0":{"x":0,"y":0}}],"uABE0":[null,{"anchor_0":{"x":0,"y":0}}],"uABE1":[null,{"anchor_0":{"x":0,"y":0}}],"uABE2":[null,{"anchor_0":{"x":0,"y":0}}]}}},"3":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"uABED":{"x":0,"y":0},"apunIyek.right1":{"x":0,"y":0},"apunIyek.right2":{"x":0,"y":0}}},"bases":{"uAAE0":{"anchor_0":{"x":{"default":683,"wght=100":636,"wght=900":716},"y":0}},"uAAE1":{"anchor_0":{"x":{"default":639,"wght=100":591,"wght=900":673},"y":0}},"uAAE2":{"anchor_0":{"x":{"wght=900":855,"wght=100":766,"default":802},"y":0}},"uAAE3":{"anchor_0":{"x":{"wght=900":921,"wght=100":832,"default":878},"y":0}},"uAAE4":{"anchor_0":{"x":{"wght=100":1063,"default":1112,"wght=900":1167},"y":0}},"uAAE5":{"anchor_0":{"x":{"default":680,"wght=900":713,"wght=100":633},"y":0}},"uAAE6":{"anchor_0":{"x":{"wght=900":886,"default":857,"wght=100":817},"y":0}},"uAAE7":{"anchor_0":{"x":{"wght=100":882,"wght=900":962,"default":932},"y":0}},"uAAE8":{"anchor_0":{"x":{"wght=900":737,"default":666,"wght=100":618},"y":0}},"uAAE9":{"anchor_0":{"x":{"default":1122,"wght=900":1175,"wght=100":1073},"y":0}},"uAAEA":{"anchor_0":{"x":{"wght=100":643,"default":691,"wght=900":683},"y":0}},"uABC0":{"anchor_0":{"x":{"default":924,"wght=100":871,"wght=900":981},"y":0}},"uABC1":{"anchor_0":{"x":{"wght=100":798,"wght=900":882,"default":837},"y":0}},"uABC2":{"anchor_0":{"x":{"wght=100":606,"default":646,"wght=900":691},"y":0}},"uABC3":{"anchor_0":{"x":{"wght=100":732,"wght=900":827,"default":751},"y":0}},"uABC4":{"anchor_0":{"x":{"wght=900":1090,"default":981,"wght=100":940},"y":0}},"uABC5":{"anchor_0":{"x":{"default":709,"wght=100":691,"wght=900":794},"y":0}},"uABC6":{"anchor_0":{"x":{"default":781,"wght=900":830,"wght=100":749},"y":0}},"uABC7":{"anchor_0":{"x":{"wght=900":851,"default":765,"wght=100":731},"y":0}},"uABC8":{"anchor_0":{"x":{"default":715,"wght=900":780,"wght=100":683},"y":0}},"uABC9":{"anchor_0":{"x":{"wght=100":855,"wght=900":1014,"default":907},"y":0}},"uABCA":{"anchor_0":{"x":{"default":649,"wght=100":626,"wght=900":780},"y":0}},"uABCB":{"anchor_0":{"x":{"wght=900":874,"default":820,"wght=100":778},"y":0}},"uABCC":{"anchor_0":{"x":{"default":817,"wght=100":803,"wght=900":911},"y":0}},"uABCD":{"anchor_0":{"x":{"wght=100":723,"wght=900":821,"default":717},"y":0}},"uABCE":{"anchor_0":{"x":{"wght=900":839,"wght=100":754,"default":803},"y":0}},"uABCF":{"anchor_0":{"x":{"default":740,"wght=100":693,"wght=900":763},"y":0}},"uABD0":{"anchor_0":{"x":{"wght=900":776,"default":728,"wght=100":686},"y":0}},"uABD1":{"anchor_0":{"x":{"wght=100":759,"default":798,"wght=900":870},"y":0}},"uABD2":{"anchor_0":{"x":{"wght=900":887,"default":787,"wght=100":743},"y":0}},"uABD3":{"anchor_0":{"x":{"wght=100":611,"default":649,"wght=900":681},"y":0}},"uABD4":{"anchor_0":{"x":{"wght=900":876,"wght=100":771,"default":818},"y":0}},"uABD5":{"anchor_0":{"x":{"wght=100":623,"default":676,"wght=900":743},"y":0}},"uABD6":{"anchor_0":{"x":{"wght=900":613,"default":606,"wght=100":553},"y":0}},"uABD7":{"anchor_0":{"x":{"wght=100":735,"default":763,"wght=900":845},"y":0}},"uABD8":{"anchor_0":{"x":{"wght=100":747,"wght=900":853,"default":781},"y":0}},"uABD9":{"anchor_0":{"x":{"wght=900":605,"default":559,"wght=100":536},"y":0}},"uABDA":{"anchor_0":{"x":{"wght=900":744,"wght=100":640,"default":688},"y":0}},"uABDB":{"anchor_0":{"x":{"default":896,"wght=100":845,"wght=900":981},"y":0}},"uABDC":{"anchor_0":{"x":{"wght=900":606,"default":576,"wght=100":536},"y":0}},"uABDD":{"anchor_0":{"x":{"wght=900":657,"wght=100":628,"default":630},"y":0}},"uABDE":{"anchor_0":{"x":{"default":820,"wght=900":884,"wght=100":780},"y":0}},"uABDF":{"anchor_0":{"x":{"wght=100":745,"wght=900":835,"default":769},"y":0}},"uABE0":{"anchor_0":{"x":{"wght=100":639,"default":683,"wght=900":719},"y":0}},"uABE1":{"anchor_0":{"x":{"wght=900":757,"wght=100":655,"default":706},"y":0}},"uABE2":{"anchor_0":{"x":{"default":740,"wght=900":763,"wght=100":693},"y":0}}}}]],"4":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"uAAEC":{"x":-63,"y":0},"uAAF6":{"x":-498,"y":{"wght=900":-8,"default":-48}},"uABE8":{"x":-63,"y":0},"apunIyekunap":{"x":-63,"y":0}}},"bases":{"uni25CC":{"anchor_0":{"x":297,"y":-48}}}}]],"5":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"uABED":{"x":0,"y":0},"apunIyek.right1":{"x":0,"y":0},"apunIyek.right2":{"x":0,"y":0}}},"bases":{"uni25CC":{"anchor_0":{"x":524,"y":0}}}}]],"6":[null,[{"type":"mark_to_base","marks":{"anchor_0":{"uAAED":{"x":-381,"y":698},"uABE5":{"x":-156,"y":723},"uABE9":{"x":-146,"y":684},"uABEA":{"x":-137,"y":684}}},"bases":{"uni25CC":{"anchor_0":{"x":297,"y":608}}}}]]}},"HVAR":{"item_variation_store_offset":{"item_variation_data_offsets":{"0":{"item_count":[65,66],"delta_sets":{"126":[6,0],"127":[104,0],"128":[50,6],"129":[176,104],"130":[null,50],"131":[null,176]}},"1":{"item_count":[4,3],"delta_sets":{"12":[0,null],"13":[0,null],"14":[0,null],"15":[0,null]}}}},"advance_width_mapping_offset":{"map_data":{"0":[131,63],"3":[64,65],"4":[64,65],"5":[131,63],"6":[131,63],"21":[131,63],"22":[131,63],"31":[131,63],"45":[63,64],"69":[131,63],"72":[131,63],"73":[131,63],"74":[131,63],"77":[131,63],"88":[131,63]}}},"OS/2":{"fs_selection":[192,448]},"STAT":{"offset_to_axis_value_offsets":{"axis_value_offsets":{"1":{"value_name_id":["258","259"]},"2":{"value_name_id":["259","261"]},"3":{"value_name_id":["260","SUBFAMILY_NAME"]},"4":{"value_name_id":["261","265"]},"5":{"value_name_id":["262","267"]},"6":{"value_name_id":["263","269"]},"7":{"value_name_id":["264","271"]},"8":{"value_name_id":["265","273"]}}}},"fvar":{"axis_instance_arrays_offset":{"instances":{"0":{"subfamily_name_id":["266","257"],"post_script_name_id":[null,"258"]},"1":{"subfamily_name_id":["267","259"],"post_script_name_id":[null,"260"]},"2":{"subfamily_name_id":["268","261"],"post_script_name_id":[null,"262"]},"3":{"subfamily_name_id":["269","263"],"post_script_name_id":[null,"264"]},"4":{"subfamily_name_id":["270","265"],"post_script_name_id":[null,"266"]},"5":{"subfamily_name_id":["271","267"],"post_script_name_id":[null,"268"]},"6":{"subfamily_name_id":["272","269"],"post_script_name_id":[null,"270"]},"7":{"subfamily_name_id":["273","271"],"post_script_name_id":[null,"272"]},"8":{"subfamily_name_id":["274","273"],"post_script_name_id":[null,"274"]}}},"instance_size":[8,10]},"head":{"checksum_adjustment":[3014124938,4118981976],"modified":[3745312613,3813909629]},"hhea":{"caret_slope_rise":[1,1000]},"name":{"LICENSE_DESCRIPTION":{"en-US":["This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://scripts.sil.org/OFL","This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"]},"LICENSE_URL":{"en-US":["https://scripts.sil.org/OFL","https://openfontlicense.org"]},"256":{"en":[null,"Weight"]},"257":{"en":[null,"Thin"]},"258":{"en-US":["ExtraLight","NotoSansMeeteiMayek-Thin"],"en":[null,"NotoSansMeeteiMayek-Thin"]},"259":{"en-US":["Light","ExtraLight"],"en":[null,"ExtraLight"]},"260":{"en-US":["Regular","NotoSansMeeteiMayek-ExtraLight"],"en":[null,"NotoSansMeeteiMayek-ExtraLight"]},"261":{"en-US":["Medium","Light"],"en":[null,"Light"]},"262":{"en-US":["SemiBold","NotoSansMeeteiMayek-Light"],"en":[null,"NotoSansMeeteiMayek-Light"]},"263":{"en-US":["Bold","Regular"],"en":[null,"Regular"]},"264":{"en-US":["ExtraBold","NotoSansMeeteiMayek-Regular"],"en":[null,"NotoSansMeeteiMayek-Regular"]},"265":{"en-US":["Black","Medium"],"en":[null,"Medium"]},"266":{"en":["Thin","NotoSansMeeteiMayek-Medium"],"en-US":["Thin","NotoSansMeeteiMayek-Medium"]},"267":{"en":["ExtraLight","SemiBold"],"en-US":["ExtraLight","SemiBold"]},"268":{"en":["Light","NotoSansMeeteiMayek-SemiBold"],"en-US":["Light","NotoSansMeeteiMayek-SemiBold"]},"269":{"en":["Regular","Bold"],"en-US":["Regular","Bold"]},"270":{"en":["Medium","NotoSansMeeteiMayek-Bold"],"en-US":["Medium","NotoSansMeeteiMayek-Bold"]},"271":{"en":["SemiBold","ExtraBold"],"en-US":["SemiBold","ExtraBold"]},"272":{"en":["Bold","NotoSansMeeteiMayek-ExtraBold"],"en-US":["Bold","NotoSansMeeteiMayek-ExtraBold"]},"273":{"en":["ExtraBold","Black"],"en-US":["ExtraBold","Black"]},"274":{"en":["Black","NotoSansMeeteiMayek-Black"],"en-US":["Black","NotoSansMeeteiMayek-Black"]}}},"cmap_diff":{}};
+		function buildLocation_statichtml(loc) {
+  // Set font styles to appropriate axis locations
+  let rule = document.styleSheets[0].cssRules[2].style;
+  let cssSetting = "";
+  let textLocation = "Default";
+  if (loc.coords) {
+    cssSetting = Object.entries(loc.coords)
+      .map(function ([axis, value]) {
+        return `"${axis}" ${value}`;
+      })
+      .join(", ");
+    textLocation = Object.entries(loc.coords)
+      .map(function ([axis, value]) {
+        return `${axis}=${value}`;
+      })
+      .join(" ");
+    rule.setProperty("font-variation-settings", cssSetting);
+  }
+
+  $("#main").empty();
+
+  $("#title").html(`<h4 class="mt-2">${textLocation}</h2>`);
+
+  if (loc.glyphs) {
+    $("#main").append("<h4>Modified Glyphs</h4>");
+    let glyphs = $("<div>");
+    for (let glyph of loc.glyphs) {
+      addAGlyph(glyph, glyphs);
+    }
+    $("#main").append(glyphs);
+  }
+
+  if (loc.words) {
+    $("#main").append("<h4>Modified Words</h4>");
+    for (let [script, words] of Object.entries(loc.words)) {
+      let scriptTitle = $(`<h6>${script}</h6>`);
+      $("#main").append(scriptTitle);
+      let worddiv = $("<div>");
+      for (let word of words) {
+        addAWord(word, worddiv);
+      }
+      $("#main").append(worddiv);
+    }
+  }
+  $('[data-toggle="tooltip"]').tooltip();
+}
+
+$(function () {
+  if (report["tables"]) {
+    diffTables(report);
+  }
+  if (report["kerns"]) {
+    diffKerns(report);
+  }
+  cmapDiff(report);
+  $('[data-toggle="tooltip"]').tooltip();
+  if (!report["locations"]) {
+    $("#title").html("<h4 class='mt-2'>No differences found</h4>");
+    $("#ui-nav").hide();
+    return;
+  }
+
+  for (var [index, loc] of report["locations"].entries()) {
+    var loc_nav = $(`<li class="nav-item">
+		<a class="nav-link text-secondary" href="#" data-index="${index}">${loc.location.replaceAll(
+      ",",
+      ",\u200b"
+    )}</a>
+	</li>`);
+    $("#locationnav").append(loc_nav);
+  }
+  $("#locationnav li a").on("click", function (e) {
+    $("#locationnav li a").removeClass("active");
+    $(this).addClass("active");
+    buildLocation_statichtml(report.locations[$(this).data("index")]);
+  });
+  $("#locationnav li a").eq(0).click();
+
+  document.styleSheets[0].cssRules[0].style.setProperty(
+    "src",
+    "url(old-NotoSansMeeteiMayek[wght].ttf)"
+  );
+  document.styleSheets[0].cssRules[1].style.setProperty(
+    "src",
+    "url(new-NotoSansMeeteiMayek[wght].ttf)"
+  );
+  setupAnimation();
+});
+
+	</script>
+</body>
+
+</html>

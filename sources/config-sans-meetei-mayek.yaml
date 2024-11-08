@@ -6,7 +6,8 @@ includeSubsets:
   name: GF_Latin_Core
 - from: Noto Sans Devanagari
   ranges:
-    - start: 0x20B9
-      end: 0x20B9
+  - end: 8377
+    start: 8377
+recipeProvider: noto
 sources:
 - NotoSansMeeteiMayek.glyphs
